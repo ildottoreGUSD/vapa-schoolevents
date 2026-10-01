@@ -1,0 +1,4 @@
+body{background:var(--surface-page);color:var(--text-body);font:var(--type-body);-webkit-font-smoothing:antialiased}
+a{color:var(--text-link);text-decoration:none;border-bottom:1px solid rgba(15,111,180,.35);transition:color var(--motion-fast) linear,border-color var(--motion-fast) linear}
+a:hover{color:var(--text-link-hover);border-bottom-color:var(--gusd-navy)}
+::selection{background:var(--vapa-visual-arts);color:var(--gusd-navy)}

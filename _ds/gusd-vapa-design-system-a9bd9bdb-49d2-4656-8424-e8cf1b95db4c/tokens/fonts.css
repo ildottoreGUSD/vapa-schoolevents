@@ -1,0 +1,7 @@
+/* SUBSTITUTION NOTICE — see guidelines/type-substitution.html and readme.md.
+   The source PDF was printed from Chrome with subsetted, anonymised fonts, so the
+   licensed originals are not recoverable from the file. Measured average advance
+   width is ~0.47em across display and text weights (a tight, tall-x-height
+   grotesque). Archivo 800 stands in for display; Inter for running text.
+   Replace this @import with real @font-face rules if GUSD supplies the originals. */
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap");

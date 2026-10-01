@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/gusd-vapa-design-system-a9bd9bdb-49d2-4656-8424-e8cf1b95db4c/styles.css" />
+<script src="_ds/gusd-vapa-design-system-a9bd9bdb-49d2-4656-8424-e8cf1b95db4c/_ds_bundle.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--gusd-cream); }
+  * { box-sizing: border-box; }
+  a { color: var(--text-link); }
+  a:hover { color: var(--text-link-hover); }
+  @media print {
+    body { background: #fff; }
+    .no-print { display: none !important; }
+    .evt { break-inside: avoid; }
+    .mo { break-inside: avoid-page; }
+  }
+</style>
+</helmet>
+<div style="font-family: var(--font-text); color: var(--text-body); background: var(--gusd-cream); min-height: 100vh;">
+
+  <div style="display: grid; grid-template-columns: repeat(5, 1fr); height: 14px;">
+    <div style="background: var(--vapa-dance);"></div>
+    <div style="background: var(--vapa-media-arts);"></div>
+    <div style="background: var(--vapa-music);"></div>
+    <div style="background: var(--vapa-theatre);"></div>
+    <div style="background: var(--vapa-visual-arts);"></div>
+  </div>
+
+  <header style="background: var(--gusd-navy); color: var(--text-on-dark); padding: clamp(40px, 6vw, 72px) clamp(24px, 5vw, 64px) clamp(36px, 5vw, 64px);">
+    <div style="max-width: 1120px; margin: 0 auto;">
+      <x-import component-from-global-scope="GUSDVAPADesignSystem_a9bd9b.Eyebrow" tone="gold" hint-size="auto,16px">Glendale Unified School District · Visual and Performing Arts</x-import>
+      <h1 style="font: var(--type-display-1); letter-spacing: var(--tracking-display); margin: 20px 0 0; color: var(--text-on-dark); font-size: clamp(34px, 6vw, 60px);">Performances and exhibitions,<br />September to May</h1>
+      <p style="font: var(--type-lead); color: var(--text-body-on-dark); margin: 20px 0 0; max-width: 52ch; text-wrap: pretty;">Concerts, plays, musicals, showcases and exhibitions presented by GUSD students from transitional kindergarten through grade twelve.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border-rule-dark); font: var(--type-eyebrow-sm); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-eyebrow-on-dark);">
+        <span>{{ rangeLabel }}</span><span>·</span><span style="text-transform: none; letter-spacing: normal;">This site is regularly updated. Save it to your browser by pressing CTRL+D or CMD+D</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="no-print" style="position: sticky; top: 0; z-index: 20; background: var(--gusd-cream); border-bottom: 2px solid var(--gusd-navy);">
+    <div style="max-width: 1120px; margin: 0 auto; padding: 14px clamp(24px, 5vw, 64px); display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+      <span style="font: var(--type-eyebrow-sm); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-muted); margin-right: 8px;">Filter by school</span>
+      <sc-for list="{{ chips }}" as="chip" hint-placeholder-count="6">
+        <button type="button" onClick="{{ chip.onClick }}" style="{{ chip.style }}">{{ chip.label }}</button>
+      </sc-for>
+      <button type="button" onClick="{{ doPrint }}" style="margin-left: auto; border: 1px solid var(--gusd-navy); border-radius: 0; background: transparent; color: var(--gusd-navy); font-family: var(--font-text); font-size: 12px; font-weight: 600; padding: 8px 16px; cursor: pointer; transition: background-color 180ms cubic-bezier(.2,0,0,1), color 180ms cubic-bezier(.2,0,0,1);" style-hover="background: var(--gusd-navy); color: var(--text-on-dark);">Print this calendar</button>
+    </div>
+  </div>
+
+  <main style="max-width: 1120px; margin: 0 auto; padding: clamp(32px, 4vw, 56px) clamp(24px, 5vw, 64px) 96px;">
+    <sc-for list="{{ months }}" as="month" hint-placeholder-count="4">
+      <section class="mo" style="margin-bottom: 56px;">
+        <div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; padding-bottom: 12px; border-bottom: 2px solid var(--gusd-navy);">
+          <h2 style="font: var(--type-display-2); letter-spacing: var(--tracking-display); color: var(--text-heading); margin: 0; font-size: clamp(28px, 4vw, 44px);">{{ month.name }}</h2>
+          <span style="font: var(--type-display-3); letter-spacing: var(--tracking-display); color: var(--text-muted); font-size: clamp(20px, 2.6vw, 30px);">{{ month.year }}</span>
+          <span style="margin-left: auto; font: var(--type-eyebrow-sm); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-muted);">{{ month.count }}</span>
+        </div>
+
+        <div style="display: grid; gap: 16px; margin-top: 16px;">
+          <sc-for list="{{ month.events }}" as="evt" hint-placeholder-count="3">
+            <article class="evt" style="{{ evt.cardStyle }}">
+              <div style="display: flex; flex-direction: column; gap: 14px;">
+                <sc-for list="{{ evt.dates }}" as="dt" hint-placeholder-count="1">
+                  <div>
+                    <div style="font: var(--type-figure); letter-spacing: var(--tracking-display); color: var(--text-heading); font-size: 44px;">{{ dt.day }}</div>
+                    <div style="font: var(--type-eyebrow-sm); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-muted); margin-top: 6px;">{{ dt.weekday }}</div>
+                    <div style="font: var(--type-label); color: var(--gusd-blue); margin-top: 4px;">{{ dt.time }}</div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="min-width: 0;">
+                <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 10px;">
+                  <a href="{{ evt.schoolUrl }}" target="_blank" rel="noopener" style="font: var(--type-eyebrow-sm); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-link); text-decoration: none; border-bottom: 1px solid rgba(15,111,180,.35); padding-bottom: 2px; transition: color 180ms cubic-bezier(.2,0,0,1), border-color 180ms cubic-bezier(.2,0,0,1);" style-hover="color: var(--text-link-hover); border-bottom-color: var(--gusd-navy);">{{ evt.school }}</a>
+                  <sc-if value="{{ evt.isPast }}" hint-placeholder-val="{{ false }}">
+                    <span style="font: var(--type-eyebrow-sm); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-muted); border: 1px solid var(--border-rule); padding: 3px 8px;">Past</span>
+                  </sc-if>
+                </div>
+
+                <h3 style="font: var(--type-display-3); letter-spacing: var(--tracking-display); color: var(--text-heading); margin: 0 0 10px; font-size: clamp(20px, 2.2vw, 26px); text-wrap: pretty;">{{ evt.title }}</h3>
+
+                <sc-if value="{{ evt.hasLoc }}" hint-placeholder-val="{{ false }}">
+                  <div style="font: var(--type-label); color: var(--text-heading); margin-bottom: 10px; line-height: 1.45;">{{ evt.loc }}</div>
+                </sc-if>
+
+                <p style="font: var(--type-body); color: var(--text-body); margin: 0; max-width: 72ch; text-wrap: pretty;">{{ evt.desc }}</p>
+
+                <sc-if value="{{ evt.hasNotes }}" hint-placeholder-val="{{ false }}">
+                  <div style="background: var(--surface-panel); padding: 16px; margin-top: 16px; max-width: 72ch;">
+                    <div style="font: var(--type-eyebrow-sm); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-eyebrow); margin-bottom: 8px;">Before you go</div>
+                    <p style="font: var(--type-body-sm); color: var(--text-body); margin: 0; text-wrap: pretty;">{{ evt.notes }}</p>
+                  </div>
+                </sc-if>
+
+                <div class="no-print" style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px;">
+                  <sc-for list="{{ evt.dates }}" as="dt" hint-placeholder-count="1">
+                    <a href="{{ dt.gcal }}" target="_blank" rel="noopener" style="font-family: var(--font-text); font-size: 12px; font-weight: 600; text-decoration: none; color: var(--text-on-dark); background: var(--gusd-navy); border: 1px solid var(--gusd-navy); padding: 8px 14px; transition: background-color 180ms cubic-bezier(.2,0,0,1), color 180ms cubic-bezier(.2,0,0,1);" style-hover="background: var(--gusd-white); color: var(--gusd-navy); border-color: var(--gusd-navy);">{{ dt.gcalLabel }}</a>
+                    <a href="{{ dt.ics }}" download="{{ dt.icsName }}" style="font-family: var(--font-text); font-size: 12px; font-weight: 600; text-decoration: none; color: var(--gusd-navy); background: var(--gusd-white); border: 1px solid var(--border-rule); padding: 8px 14px; transition: background-color 180ms cubic-bezier(.2,0,0,1), color 180ms cubic-bezier(.2,0,0,1);" style-hover="background: var(--gusd-navy); color: var(--text-on-dark); border-color: var(--gusd-navy);">{{ dt.addLabel }}</a>
+                  </sc-for>
+                </div>
+              </div>
+            </article>
+          </sc-for>
+        </div>
+      </section>
+    </sc-for>
+
+    <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+      <p style="font: var(--type-statement); letter-spacing: var(--tracking-display); color: var(--text-muted); padding: 64px 0;">No events listed<br />for this school.</p>
+    </sc-if>
+  </main>
+
+  <footer style="background: var(--gusd-navy); color: var(--text-body-on-dark); padding: clamp(32px, 4vw, 48px) clamp(24px, 5vw, 64px);">
+    <div style="max-width: 1120px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 16px 40px; align-items: baseline; font: var(--type-body);">
+      <span style="max-width: 60ch;">Dates and times are subject to change. Confirm with the presenting school before attending.</span>
+      <a href="https://www.gusd.net/schools" target="_blank" rel="noopener" style="margin-left: auto; font: var(--type-eyebrow-sm); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-eyebrow-on-dark); text-decoration: none; border-bottom: 1px solid rgba(244,180,27,.35); padding-bottom: 2px;">All GUSD schools</a>
+    </div>
+  </footer>
+
+  <div style="display: grid; grid-template-columns: repeat(5, 1fr); height: 14px;">
+    <div style="background: var(--vapa-dance);"></div>
+    <div style="background: var(--vapa-media-arts);"></div>
+    <div style="background: var(--vapa-music);"></div>
+    <div style="background: var(--vapa-theatre);"></div>
+    <div style="background: var(--vapa-visual-arts);"></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240}}">
+const EVENTS = [
+{"school":"Glendale HS · Hoover HS · Crescenta Valley HS","title":"GUSD Marching Band Showcase","desc":"Hoover HS, CV HS, and Glendale HS marching bands perform their fall field shows on the  Glendale HS football field for the community. The event starts at 6PM and ends at 8PM","loc":"","notes":"Park in lot C or on the street. Free admission.","dates":[{"d":"2026-09-26","t":"6:00 PM"}]},
+{"school":"Crescenta Valley HS · Hoover HS","title":"Depot Days - Travel Town Jazz Performance","desc":"The CV Jazz Band will perform at Griffith Park's Travel Town for their annual \"Depot Days Event.\"","loc":"Travel Town: 5200 Zoo Dr, Los Angeles, CA 90027","notes":"Free parking, it's open to the public.  Come early.  :)","dates":[{"d":"2026-10-11","t":"10:30 AM"}]},
+{"school":"Hoover HS · Toll MS","title":"Fall Concert","desc":"Hoover instrumental and choral music performances, also including Toll choir.","loc":"Hoover HS Auditorium","notes":"","dates":[{"d":"2026-10-13","t":"6:00 PM"}]},
+{"school":"Crescenta Valley HS","title":"Symphony Ensemble Concert","desc":"An evening of Chamber music presented by the CV Symphony Orchestra.  Students will perform in small groups, highlighting standard, popular as well as original music.","loc":"La Crescenta Presbyterian Church.  2902 Montrose Ave, Glendale, CA 91214","notes":"Donations accepted at the door.","dates":[{"d":"2026-10-13","t":"7:00 PM"}]},
+{"school":"Roosevelt MS","title":"Fall Arts Showcase","desc":"A showcase of all arts at Roosevelt! We are performing an original play written by one of our students! Drama, Band, Orchestra, Dance, Art, Animatronics, 3D Game design, with student curators.","loc":"","notes":"Park in lot on Brand. Entrance to the left of the main entrance, $5","dates":[{"d":"2026-10-21","t":"5:30 PM"}]},
+{"school":"Crescenta Valley HS","title":"Fall Play - Arthur Miller's, The Crucible","desc":"CV Falcon Theatre Company presents Arthur Miller\u2019s The Crucible, a gripping drama set during the Salem witch trials of 1692. As fear and accusations spread through the community, the play explores how love, desire, shame, anger, and regret can shape who we become when they have nowhere healthy to go.","loc":"","notes":"The performance will take place at the McDonald Auditorium, which is located on the Crescenta Valley High School campus. Please allow extra time for parking and walking to the auditorium; follow campus signage directing you to the theatre entrance. Ticket pricing on our school website.","dates":[{"d":"2026-10-22","t":"7:00 PM"}]},
+{"school":"Wilson MS","title":"Fall Concert","desc":"Combined concert of instrumental and choral music at Wilson Middle School","loc":"","notes":"Parking is limited. Tickets at the door are $5","dates":[{"d":"2026-10-28","t":"6:00 PM"}]},
+{"school":"Crescenta Valley HS","title":"Fall \"Spooktacular\" Concert","desc":"In a combined concert with our wonderful instrumental music program, our three choirs will sing a mix of Halloween, Autumn, and classic pieces to kick off the school year. This concert is outside and everyone is welcome to wear a Halloween costume!","loc":"","notes":"On the upper soccer field between our 5000 and 7000 buildings.","dates":[{"d":"2026-10-31","t":"2:00 PM"}]},
+{"school":"Glendale HS","title":"GUSD Choral Music Workshop","desc":"District-wide choral music day. Students will get to know each other and learn skills.","loc":"","notes":"","dates":[{"d":"2026-11-04","t":"9:00 AM"}]},
+{"school":"Toll MS","title":"Rise of Robin Hood - Fall Play","desc":"Toll Middle School's fall play, Rise of Robin Hood.","loc":"","notes":"","dates":[{"d":"2026-11-13","t":"5:00 PM"},{"d":"2026-11-14","t":"2:00 PM"}]},
+{"school":"Hoover HS","title":"She Kills Monsters: Young Adventurers Edition","desc":"A play about how walking in someone else's shoes leads a sister, Agnes, to learn about the final years of her younger sister, Tilly, who passed away in a car accident.  By trying her hand at playing Dungeons & Dragons (a game her sister loved and excelled in playing) Agnes learns about what Tilly went through with bullying, harassment and ostracization for being different.","loc":"","notes":"Recommended for PG-13 audience.  Parking available on the street.  Seating cannot exceed 150 per performance.","dates":[{"d":"2026-11-18","t":"7:00 PM"},{"d":"2026-11-19","t":"7:00 PM"},{"d":"2026-11-20","t":"7:00 PM"}]},
+{"school":"Crescenta Valley HS","title":"Feast of Lights","desc":"The CVHS Falcon Choir program presents our annual Feast of Lights Holiday Concert. This concert features our fabulous Symphony Orchestra and includes choral classics and a Christmas Carol Sing-Along.","loc":"","notes":"In MacDonald Auditorium, 4400 Ramsdell Ave","dates":[{"d":"2026-12-04","t":"7:00 PM"}]},
+{"school":"Glendale HS","title":"Glendale HS Music Department Winter Concert","desc":"The Glendale HS concert band, symphony orchestra, string orchestra, jazz band, marching band, and choir perform in the Glendale Performing Arts Center.","loc":"","notes":"Park in the parking lot next to the Glendale Performing Arts Center.","dates":[{"d":"2026-12-09","t":"7:00 PM"}]},
+{"school":"Wilson MS","title":"Winter Showcase","desc":"Winter Showcase highlights holiday music and scenes from Wilson's choral and advanced musical theatre programs.","loc":"","notes":"Tickets at the door are $5. Parking is limited.","dates":[{"d":"2026-12-10","t":"6:00 PM"}]},
+{"school":"Roosevelt MS","title":"Winter Music Concert","desc":"Come hear the Advanced Orchestra and Concert Band perform a festive music program.","loc":"","notes":"","dates":[{"d":"2026-12-10","t":"7:00 PM"}]},
+{"school":"Clark Magnet HS","title":"The Jazz Katzz Winter Blues Concert","desc":"Live music event at Clark Magnet","loc":"","notes":"","dates":[{"d":"2026-12-11","t":"6:30 PM"}]},
+{"school":"Crescenta Valley HS","title":"Instrumental Winter Concert","desc":"Annual Concert highlighting CV's Award winning Instrumental Music program and focusing on Winter as well as holiday themes.","loc":"","notes":"","dates":[{"d":"2026-12-11","t":"7:00 PM"}]},
+{"school":"Toll MS","title":"Winterfest Music Concert","desc":"This is Toll's Instrumental Music & Choir end of semester concert and will feature performances by students in all levels of these classes and our Drumline.","loc":"","notes":"","dates":[{"d":"2026-12-15","t":"6:00 PM"}]},
+{"school":"Muir ES","title":"Winter Performance","desc":"Students in Grades TK - 6th grade will be performing winter/holiday songs in multiple languages","loc":"","notes":"No parent or staff parking. Enter through the Garfield or Acacia gates","dates":[{"d":"2026-12-17","t":"8:30 AM"}]},
+{"school":"Hoover HS","title":"Winter Concert","desc":"Hoover music department performances","loc":"","notes":"","dates":[{"d":"2026-12-17","t":"6:00 PM"}]},
+{"school":"Wilson MS","title":"Winter Instrumental Concert","desc":"This program highlights all ensembles within the Instrumental Program at Wilson.","loc":"","notes":"Tickets at the door are $5. Parking is limited.","dates":[{"d":"2026-12-17","t":"6:00 PM"}]},
+{"school":"Columbus ES","title":"Holiday Choir Performance","desc":"Festive holiday songs with music and dance","loc":"","notes":"It will be in the auditorium","dates":[{"d":"2026-12-17","t":"6:00 PM"}]},
+{"school":"Clark Magnet HS","title":"EXPO & Open House","desc":"Exposition of programs at Clark Magnet. Live music, CTE pathways, Art, and school programming on display to the public.","loc":"","notes":"","dates":[{"d":"2027-01-28","t":"6:30 PM"}]},
+{"school":"Crescenta Valley HS","title":"Spring Musical - Monty Python's Spamalot (School Edition)","desc":"CV Falcon Theatre Company and ETLP presents Monty Python\u2019s Spamalot: School Edition, a hilarious musical comedy adapted by the classic film Monty Python and the Holy Grail. Join King Arthur and his Knights of the Round Table on a wildly ridiculous quest filled with outrageous characters, big musical numbers, and plenty of Monty Python humor.","loc":"","notes":"The performance will take place at the McDonald Auditorium, which is located on the Crescenta Valley High School campus. Please allow extra time for parking and walking to the auditorium, and follow campus signage directing you to the theatre entrance. More information can be found on our school website.","dates":[{"d":"2027-02-26","t":"7:00 PM"},{"d":"2027-02-27","t":"7:00 PM"},{"d":"2027-03-05","t":"7:00 PM"},{"d":"2027-03-06","t":"7:00 PM"},{"d":"2027-03-07","t":"2:00 PM"}]},
+{"school":"Glendale HS","title":"GUSD Instrumental Combined Concert","desc":"The concert bands at Glendale HS, Roosevelt MS, and Wilson MS combine into one group and put on a concert at the Glendale Performing Arts Center","loc":"","notes":"Park in the lot next to the Glendale Performing Arts Center.","dates":[{"d":"2027-03-04","t":"7:00 PM"}]},
+{"school":"Hoover HS","title":"Instrumental Music Pre-Festival Concert","desc":"The Hoover Instrumental Music program presents their Pre-Festival Concert before they head to the GUSD Festival!","loc":"","notes":"","dates":[{"d":"2027-03-05","t":"6:00 PM"}]},
+{"school":"Keppel ES","title":"Spirit Day","desc":"5th Grade Dance Showcase on March 10th from 8am - 9:30am","loc":"Hoover High School Auditorium","notes":"","dates":[{"d":"2027-03-10","t":"8:00 AM"}]},
+{"school":"Crescenta Valley HS","title":"Instrumental Spring Concert","desc":"A concert with all the Instrumental Classes at Crescenta Valley High School performing Spring Themed music as well Music performed at Adjudicated Festivals.","loc":"","notes":"","dates":[{"d":"2027-04-02","t":"7:00 PM"}]},
+{"school":"Glendale HS","title":"Middle Schools Instrumental Honor Concert","desc":"This concert will feature select  instrumentalist from all 4 middle schools. Three groups will perform: Band, String Orchestra, and Symphonic Orchestra","loc":"","notes":"This is a donation only event. It is free to attend.","dates":[{"d":"2027-04-03","t":"7:00 PM"}]},
+{"school":"Hoover HS","title":"GUSD Winter Showcase","desc":"The combined schools of GUSD will be showcasing their drumline and color guard programs for our families and community!","loc":"","notes":"Hosted in Hoover's Main Gym, this is located near the pool and football field.","dates":[{"d":"2027-04-09","t":"7:00 PM"}]},
+{"school":"Hoover HS","title":"Grease: High School Version","desc":"Summer love and choosing who you want to be in the face of peer pressure and personal desire culminate in this musical theatre classic.","loc":"","notes":"","dates":[{"d":"2027-04-14","t":"7:00 PM"},{"d":"2027-04-15","t":"7:00 PM"},{"d":"2027-04-16","t":"7:00 PM"},{"d":"2027-04-17","t":"7:00 PM"}]},
+{"school":"Crescenta Valley HS","title":"Falcon Choir Spring Concert","desc":"The CVHS Falcon Choir Program presents it's Spring Concert. This is where we showcase our most challenging, sophisticated, festival-level music!","loc":"","notes":"","dates":[{"d":"2027-04-16","t":"7:00 PM"}]},
+{"school":"Toll MS","title":"Beauty and the Beast Jr. - Spring Musical","desc":"Toll Middle School's spring musical, Beauty and the Beast Jr.","loc":"","notes":"","dates":[{"d":"2027-04-16","t":"7:00 PM"},{"d":"2027-04-17","t":"2:00 PM"},{"d":"2027-04-22","t":"5:00 PM"},{"d":"2027-04-23","t":"7:00 PM"}]},
+{"school":"Keppel ES","title":"Art Day","desc":"We have outside volunteers come teach students about different types of art and we showcase student artwork","loc":"","notes":"","dates":[{"d":"2027-04-21","t":"8:00 AM"}]},
+{"school":"Crescenta Valley HS","title":"Student Concerto and Symphony Concert","desc":"This Concert features the winners of CV's annual Concerto Contest as well as the Symphony Orchestra performing a complete Symphonic work.","loc":"","notes":"","dates":[{"d":"2027-04-28","t":"7:00 PM"}]},
+{"school":"Crescenta Valley HS","title":"Spring Ensemble Concert","desc":"A Concert of amazing Chamber music by the Symphonic Orchestra at CVHS.","loc":"","notes":"End of the Year Symphony Chamber Concert!  Original, popular and Standard music.","dates":[{"d":"2027-04-29","t":"7:00 PM"}]},
+{"school":"Crescenta Valley HS","title":"Los Angeles Master Chorale High School Choir Festival","desc":"CVHS Charismatics Chamber Choir and the Hoover HS Choir join students from dozens of schools throughout the southland for a massive performance at Walt Disney Concert Hall!","loc":"Walt Disney Concert Hall, 111 Grand Ave, Los Angeles","notes":"Paid Parking in the lot under Disney Hall.","dates":[{"d":"2027-04-30","t":"1:00 PM"}]},
+{"school":"Keppel ES","title":"Master Class (Spring Musical)","desc":"We are still waiting on the rights for our Spring Musical - will update at a later date","loc":"Toll Middle School","notes":"","dates":[{"d":"2027-05-07","t":"6:00 PM"},{"d":"2027-05-08","t":"6:00 PM"},{"d":"2027-05-15","t":"6:00 PM"},{"d":"2027-05-16","t":"6:00 PM"}]},
+{"school":"Roosevelt MS","title":"Spring Play (Title TBD)","desc":"Our spring production from Drama","loc":"","notes":"Performance at 3:15 and 7:00 PM, Entrance to the left of the main entrance, $5","dates":[{"d":"2027-05-12","t":"3:15 PM"}]},
+{"school":"Wilson MS","title":"Pop Show (Instrumental)","desc":"Wilson's instrumental program presents a pop music concert highlighting Wind Ensemble, String Orchestra, Drumline, and more!","loc":"","notes":"Tickets at the door are $5 at the door. Parking is limited.","dates":[{"d":"2027-05-12","t":"6:30 PM"}]},
+{"school":"Crescenta Valley HS","title":"Falcon Choirs Pops Concert","desc":"For our last concert of the year, we present performances by our finest soloists and small groups, in addition to our wonderful choirs. This is an evening of familiar songs and tends to be a popular favorite!","loc":"","notes":"","dates":[{"d":"2027-05-14","t":"7:00 PM"}]},
+{"school":"Roosevelt MS","title":"Spring Strings Concert","desc":"Come celebrate the hard work of our Beginning Strings and Advanced Orchestra students at their end of the year concert.","loc":"","notes":"","dates":[{"d":"2027-05-18","t":"7:00 PM"}]},
+{"school":"Wilson MS","title":"Pop Show (choir/musical theatre)","desc":"Wilson's choral & musical theater programs present a pop music performance.","loc":"","notes":"Tickets at the door are $5 at the door. Parking is limited.","dates":[{"d":"2027-05-19","t":"6:00 PM"}]},
+{"school":"Roosevelt MS","title":"Spring Band Concert","desc":"Come celebrate the hard work of our Beginning Band, Drumline and Concert Band students at their end of the year concert.","loc":"","notes":"","dates":[{"d":"2027-05-19","t":"7:00 PM"}]},
+{"school":"Toll MS","title":"Razzmatazz Instrumental Music Concert","desc":"This event will feature performances by all of Toll's instrumental music classes and our drumline.","loc":"","notes":"We will be asking for donations but it is free to attend.","dates":[{"d":"2027-05-20","t":"6:00 PM"}]},
+{"school":"Crescenta Valley HS","title":"Instrumental Pops Concert","desc":"Our end of the year Pops Themed concert featuring all of the Instrumental Music Groups at Crescenta Valley High School.  Each year, we choose a unique theme.  The theme this year is being decided but will be revealed soon.","loc":"","notes":"","dates":[{"d":"2027-05-21","t":"7:00 PM"}]},
+{"school":"Hoover HS","title":"Shakespeare Festival","desc":"District wide secondary school are all invited to participate in a GUSD Shakespeare Festival","loc":"","notes":"Date is not set in stone yet...","dates":[{"d":"2027-05-22","t":"9:00 AM"}]},
+{"school":"Hoover HS · Toll MS","title":"Hoover and Toll Spring Concerts","desc":"Hoover HS and Toll MS music programs present two spring concerts! Come celebrate the end of the year with us!","loc":"","notes":"You are welcome to attend both concerts.","dates":[{"d":"2027-05-25","t":"5:00 PM"},{"d":"2027-05-25","t":"7:00 PM"}]},
+{"school":"Clark Magnet HS","title":"The Jazz Katzz - Twilight Tunes Concert","desc":"The Jazz Katzz spring concert at Clark Magnet.","loc":"","notes":"","dates":[{"d":"2027-05-27","t":"6:30 PM"}]},
+{"school":"Toll MS","title":"Advanced Drama One-Act Plays","desc":"Toll Middle School's Advanced Drama class presents a night of student-directed one-act plays.","loc":"","notes":"","dates":[{"d":"2027-05-28","t":"6:00 PM"}]}
+];
+
+const SCHOOL_URLS = {
+  "Glendale HS": "https://glendalehs.gusd.net",
+  "Hoover HS": "https://hooverhs.gusd.net",
+  "Crescenta Valley HS": "https://cvhs.gusd.net",
+  "Clark Magnet HS": "https://clarkhs.gusd.net",
+  "Toll MS": "https://tollms.gusd.net",
+  "Wilson MS": "https://wilsonms.gusd.net",
+  "Roosevelt MS": "https://rooseveltms.gusd.net",
+  "Keppel ES": "https://keppel.gusd.net",
+  "Columbus ES": "https://columbus.gusd.net",
+  "Muir ES": "https://muir.gusd.net"
+};
+
+const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
+class Component extends DCLogic {
+  state = { school: "All" };
+
+  parse(d, t) {
+    const [y, m, day] = d.split("-").map(Number);
+    let h = 0, mi = 0;
+    const tm = /^(\d+):(\d+)\s*(AM|PM)$/i.exec(t || "");
+    if (tm) {
+      h = Number(tm[1]) % 12; mi = Number(tm[2]);
+      if (/pm/i.test(tm[3])) h += 12;
+    }
+    return new Date(y, m - 1, day, h, mi);
+  }
+
+  ics(evt, dt) {
+    const start = this.parse(dt.d, dt.t);
+    const end = new Date(start.getTime() + 2 * 3600 * 1000);
+    const p = n => String(n).padStart(2, "0");
+    const f = x => `${x.getFullYear()}${p(x.getMonth() + 1)}${p(x.getDate())}T${p(x.getHours())}${p(x.getMinutes())}00`;
+    const esc = s => String(s || "").replace(/\\/g, "\\\\").replace(/\n/g, "\\n").replace(/,/g, "\\,").replace(/;/g, "\\;");
+    const body = [
+      "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//GUSD VAPA//EN", "BEGIN:VEVENT",
+      `UID:${dt.d}-${Math.abs(this.hash(evt.title + dt.d))}@gusd.net`,
+      `DTSTART:${f(start)}`, `DTEND:${f(end)}`,
+      `SUMMARY:${esc(evt.title + " \u2014 " + evt.school)}`,
+      `LOCATION:${esc(evt.loc || evt.school)}`,
+      `DESCRIPTION:${esc(evt.desc)}`,
+      "END:VEVENT", "END:VCALENDAR"
+    ].join("\r\n");
+    return "data:text/calendar;charset=utf-8," + encodeURIComponent(body);
+  }
+
+  gcal(evt, dt) {
+    const start = this.parse(dt.d, dt.t);
+    const end = new Date(start.getTime() + 2 * 3600 * 1000);
+    const p = n => String(n).padStart(2, "0");
+    const f = x => `${x.getFullYear()}${p(x.getMonth() + 1)}${p(x.getDate())}T${p(x.getHours())}${p(x.getMinutes())}00`;
+    const params = new URLSearchParams({
+      action: "TEMPLATE",
+      text: evt.title + " — " + evt.school,
+      dates: f(start) + "/" + f(end),
+      ctz: "America/Los_Angeles",
+      details: evt.desc + (evt.notes ? "\n\n" + evt.notes : ""),
+      location: evt.loc || evt.school
+    });
+    return "https://calendar.google.com/calendar/render?" + params.toString();
+  }
+
+  hash(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return h; }
+
+  renderVals() {
+    const now = new Date();
+    const sel = this.state.school;
+    const schools = Array.from(new Set(EVENTS.flatMap(e => e.school.split(" · "))))
+      .sort((a, b) => a.localeCompare(b));
+
+    const chipBase = "font-family: var(--font-text); font-size: 12px; font-weight: 600; padding: 8px 14px; border-radius: 0; cursor: pointer; transition: background-color 180ms cubic-bezier(.2,0,0,1), color 180ms cubic-bezier(.2,0,0,1);";
+    const chips = ["All"].concat(schools).map(name => ({
+      label: name === "All" ? "All schools" : name,
+      style: chipBase + (name === sel
+        ? " background: var(--gusd-navy); color: var(--text-on-dark); border: 1px solid var(--gusd-navy);"
+        : " background: var(--gusd-white); color: var(--text-body); border: 1px solid var(--border-rule);"),
+      onClick: () => this.setState({ school: name })
+    }));
+
+    const list = EVENTS.filter(e => sel === "All" || e.school.split(" · ").includes(sel));
+    const byMonth = new Map();
+    for (const e of list) {
+      const first = this.parse(e.dates[0].d, e.dates[0].t);
+      const key = `${first.getFullYear()}-${p2(first.getMonth())}`;
+      if (!byMonth.has(key)) byMonth.set(key, { key, name: MONTHS[first.getMonth()], year: first.getFullYear(), sort: first.getTime(), events: [] });
+      const last = this.parse(e.dates[e.dates.length - 1].d, e.dates[e.dates.length - 1].t);
+      const isPast = last.getTime() < now.getTime();
+      byMonth.get(key).events.push({
+        sort: first.getTime(),
+        school: e.school,
+        schoolUrl: SCHOOL_URLS[e.school] || "https://www.gusd.net/schools",
+        title: e.title,
+        desc: e.desc,
+        loc: e.loc,
+        hasLoc: !!e.loc,
+        notes: e.notes,
+        hasNotes: !!e.notes,
+        isPast,
+        cardStyle: "display: grid; grid-template-columns: minmax(96px, 116px) minmax(0, 1fr); gap: 16px 28px; align-items: start; padding: 24px; background: "
+          + (isPast ? "var(--surface-panel)" : "var(--gusd-white)")
+          + "; border: 1px solid var(--border-rule); border-top: 4px solid "
+          + (isPast ? "var(--neutral-300)" : "var(--gusd-blue)") + ";",
+        dates: e.dates.map(dt => {
+          const dd = this.parse(dt.d, dt.t);
+          return {
+            day: dd.getDate(),
+            weekday: DAYS[dd.getDay()].slice(0, 3),
+            time: dt.t,
+            ics: this.ics(e, dt),
+            icsName: e.title.replace(/[^a-z0-9]+/gi, "-").slice(0, 40) + "-" + dt.d + ".ics",
+            gcal: this.gcal(e, dt),
+            gcalLabel: e.dates.length > 1
+              ? "Google Calendar " + (dd.getMonth() + 1) + "/" + dd.getDate()
+              : "Add to Google Calendar",
+            addLabel: e.dates.length > 1
+              ? "Apple / Outlook " + (dd.getMonth() + 1) + "/" + dd.getDate()
+              : "Apple / Outlook (.ics)"
+          };
+        })
+      });
+    }
+    function p2(n) { return String(n + 1).padStart(2, "0"); }
+
+    const months = Array.from(byMonth.values()).sort((a, b) => a.sort - b.sort);
+    months.forEach(m => {
+      m.events.sort((a, b) => a.sort - b.sort);
+      m.count = m.events.length + (m.events.length === 1 ? " event" : " events");
+    });
+
+    const allDates = EVENTS.flatMap(e => e.dates.map(d => d.d)).sort();
+    const fmt = s => { const [y, m] = s.split("-"); return MONTHS[Number(m) - 1].slice(0, 3) + " " + y; };
+
+    return {
+      chips, months,
+      isEmpty: months.length === 0,
+      countLabel: list.length + (list.length === 1 ? " listing" : " listings"),
+      rangeLabel: fmt(allDates[0]) + " – " + fmt(allDates[allDates.length - 1]),
+      schoolCountLabel: schools.length + " schools",
+      doPrint: () => window.print()
+    };
+  }
+}
+</script>
+</body>
+</html>

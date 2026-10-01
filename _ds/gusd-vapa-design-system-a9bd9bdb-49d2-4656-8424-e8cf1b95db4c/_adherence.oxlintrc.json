@@ -1,0 +1,382 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "components/controls/**",
+              "components/data/**",
+              "components/publication/**",
+              "ui_kits/strategic-plan/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Archivo|Inter))/i]",
+        "message": "Font not provided by the design system. Available: Archivo, Inter."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ActionCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:number|phase|title|steps|impact|impactLabel|funding|outcome|flag|key|ref|className|style|children)$/]",
+        "message": "<ActionCard> doesn't accept that prop. Declared props: number, phase, title, steps, impact, impactLabel, funding, outcome, flag."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ActionCard'] > JSXAttribute[name.name='impact'] > Literal[value!=/^(?:low|medium|high)$/]",
+        "message": "<ActionCard> impact must be one of 'low' | 'medium' | 'high'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|variant|size|as|href|key|ref|className|style|children)$/]",
+        "message": "<Button> doesn't accept that prop. Declared props: children, variant, size, as, href."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:primary|accent|secondary|ghost|onDark)$/]",
+        "message": "<Button> variant must be one of 'primary' | 'accent' | 'secondary' | 'ghost' | 'onDark'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='size'] > Literal[value!=/^(?:sm|md|lg)$/]",
+        "message": "<Button> size must be one of 'sm' | 'md' | 'lg'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='as'] > Literal[value!=/^(?:button|a)$/]",
+        "message": "<Button> as must be one of 'button' | 'a'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Callout'] > JSXAttribute > JSXIdentifier[name!=/^(?:eyebrow|title|children|tone|columns|key|ref|className|style|children)$/]",
+        "message": "<Callout> doesn't accept that prop. Declared props: eyebrow, title, children, tone, columns."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Callout'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:panel|dark)$/]",
+        "message": "<Callout> tone must be one of 'panel' | 'dark'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='DisciplineCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:discipline|name|image|caption|tone|key|ref|className|style|children)$/]",
+        "message": "<DisciplineCard> doesn't accept that prop. Declared props: discipline, name, image, caption, tone."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='DisciplineCard'] > JSXAttribute[name.name='discipline'] > Literal[value!=/^(?:dance|media-arts|music|theatre|visual-arts)$/]",
+        "message": "<DisciplineCard> discipline must be one of 'dance' | 'media-arts' | 'music' | 'theatre' | 'visual-arts'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='DisciplineCard'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:dark|light)$/]",
+        "message": "<DisciplineCard> tone must be one of 'dark' | 'light'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Eyebrow'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|tone|rule|size|key|ref|className|style|children)$/]",
+        "message": "<Eyebrow> doesn't accept that prop. Declared props: children, tone, rule, size."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Eyebrow'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:blue|gold|navy|muted)$/]",
+        "message": "<Eyebrow> tone must be one of 'blue' | 'gold' | 'navy' | 'muted'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Eyebrow'] > JSXAttribute[name.name='size'] > Literal[value!=/^(?:sm|md)$/]",
+        "message": "<Eyebrow> size must be one of 'sm' | 'md'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ImpactTag'] > JSXAttribute > JSXIdentifier[name!=/^(?:level|note|children|key|ref|className|style|children)$/]",
+        "message": "<ImpactTag> doesn't accept that prop. Declared props: level, note, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ImpactTag'] > JSXAttribute[name.name='level'] > Literal[value!=/^(?:low|medium|high)$/]",
+        "message": "<ImpactTag> level must be one of 'low' | 'medium' | 'high'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='PageHeading'] > JSXAttribute > JSXIdentifier[name!=/^(?:eyebrow|children|lead|level|tone|rule|align|key|ref|className|style|children)$/]",
+        "message": "<PageHeading> doesn't accept that prop. Declared props: eyebrow, children, lead, level, tone, rule, align."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='PageHeading'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:light|dark)$/]",
+        "message": "<PageHeading> tone must be one of 'light' | 'dark'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='PageHeading'] > JSXAttribute[name.name='align'] > Literal[value!=/^(?:left|center)$/]",
+        "message": "<PageHeading> align must be one of 'left' | 'center'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ProgressMeter'] > JSXAttribute > JSXIdentifier[name!=/^(?:label|value|max|tone|key|ref|className|style|children)$/]",
+        "message": "<ProgressMeter> doesn't accept that prop. Declared props: label, value, max, tone."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ProgressMeter'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:blue|green|amber|purple)$/]",
+        "message": "<ProgressMeter> tone must be one of 'blue' | 'green' | 'amber' | 'purple'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='StatFigure'] > JSXAttribute > JSXIdentifier[name!=/^(?:value|label|tone|size|key|ref|className|style|children)$/]",
+        "message": "<StatFigure> doesn't accept that prop. Declared props: value, label, tone, size."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='StatFigure'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:blue|green|amber|purple|navy)$/]",
+        "message": "<StatFigure> tone must be one of 'blue' | 'green' | 'amber' | 'purple' | 'navy'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='StatFigure'] > JSXAttribute[name.name='size'] > Literal[value!=/^(?:sm|md)$/]",
+        "message": "<StatFigure> size must be one of 'sm' | 'md'."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {
+      "ActionCard": {
+        "replaces": []
+      },
+      "Button": {
+        "replaces": []
+      },
+      "Callout": {
+        "replaces": []
+      },
+      "DisciplineCard": {
+        "replaces": []
+      },
+      "Eyebrow": {
+        "replaces": []
+      },
+      "ImpactTag": {
+        "replaces": []
+      },
+      "PageHeading": {
+        "replaces": []
+      },
+      "ProgressMeter": {
+        "replaces": []
+      },
+      "StatFigure": {
+        "replaces": []
+      }
+    },
+    "tokens": [
+      "--border-rule",
+      "--border-rule-dark",
+      "--border-rule-strong",
+      "--ease-out",
+      "--ease-standard",
+      "--font-display",
+      "--font-text",
+      "--gusd-amber",
+      "--gusd-blue",
+      "--gusd-blue-deep",
+      "--gusd-cream",
+      "--gusd-cream-2",
+      "--gusd-green",
+      "--gusd-navy",
+      "--gusd-navy-2",
+      "--gusd-red",
+      "--gusd-white",
+      "--impact-high",
+      "--impact-low",
+      "--impact-medium",
+      "--measure",
+      "--motion-base",
+      "--motion-fast",
+      "--motion-slow",
+      "--neutral-050",
+      "--neutral-100",
+      "--neutral-200",
+      "--neutral-300",
+      "--neutral-500",
+      "--neutral-700",
+      "--neutral-900",
+      "--page-gutter",
+      "--page-height",
+      "--page-margin",
+      "--page-width",
+      "--radius-md",
+      "--radius-none",
+      "--radius-pill",
+      "--radius-sm",
+      "--rule-accent",
+      "--rule-hairline",
+      "--rule-heavy",
+      "--shadow-card",
+      "--shadow-none",
+      "--shadow-raised",
+      "--space-1",
+      "--space-10",
+      "--space-12",
+      "--space-16",
+      "--space-2",
+      "--space-20",
+      "--space-3",
+      "--space-4",
+      "--space-5",
+      "--space-6",
+      "--space-8",
+      "--surface-card",
+      "--surface-page",
+      "--surface-page-dark",
+      "--surface-panel",
+      "--surface-panel-dark",
+      "--text-body",
+      "--text-body-on-dark",
+      "--text-eyebrow",
+      "--text-eyebrow-on-dark",
+      "--text-heading",
+      "--text-link",
+      "--text-link-hover",
+      "--text-muted",
+      "--text-on-dark",
+      "--tracking-display",
+      "--tracking-eyebrow",
+      "--tracking-eyebrow-wide",
+      "--type-body",
+      "--type-body-sm",
+      "--type-caption",
+      "--type-display-1",
+      "--type-display-2",
+      "--type-display-3",
+      "--type-eyebrow",
+      "--type-eyebrow-sm",
+      "--type-figure",
+      "--type-label",
+      "--type-lead",
+      "--type-meta",
+      "--type-statement",
+      "--vapa-dance",
+      "--vapa-media-arts",
+      "--vapa-music",
+      "--vapa-theatre",
+      "--vapa-visual-arts",
+      "--weight-black",
+      "--weight-bold",
+      "--weight-medium",
+      "--weight-regular",
+      "--weight-semibold"
+    ],
+    "tokenKinds": {
+      "--gusd-navy": "color",
+      "--gusd-navy-2": "color",
+      "--gusd-cream": "color",
+      "--gusd-cream-2": "color",
+      "--gusd-blue": "color",
+      "--gusd-blue-deep": "color",
+      "--gusd-white": "color",
+      "--vapa-dance": "color",
+      "--vapa-media-arts": "color",
+      "--vapa-music": "color",
+      "--vapa-theatre": "color",
+      "--vapa-visual-arts": "color",
+      "--gusd-green": "color",
+      "--gusd-amber": "color",
+      "--gusd-red": "color",
+      "--neutral-900": "color",
+      "--neutral-700": "color",
+      "--neutral-500": "color",
+      "--neutral-300": "color",
+      "--neutral-200": "color",
+      "--neutral-100": "color",
+      "--neutral-050": "color",
+      "--surface-page": "color",
+      "--surface-page-dark": "color",
+      "--surface-card": "color",
+      "--surface-panel": "color",
+      "--surface-panel-dark": "color",
+      "--text-heading": "font",
+      "--text-body": "font",
+      "--text-muted": "font",
+      "--text-eyebrow": "font",
+      "--text-on-dark": "font",
+      "--text-body-on-dark": "font",
+      "--text-eyebrow-on-dark": "font",
+      "--text-link": "font",
+      "--text-link-hover": "font",
+      "--border-rule": "color",
+      "--border-rule-strong": "color",
+      "--border-rule-dark": "color",
+      "--impact-low": "color",
+      "--impact-medium": "color",
+      "--impact-high": "color",
+      "--font-display": "font",
+      "--font-text": "font",
+      "--weight-regular": "font",
+      "--weight-medium": "font",
+      "--weight-semibold": "font",
+      "--weight-bold": "font",
+      "--weight-black": "font",
+      "--type-display-1": "font",
+      "--type-display-2": "font",
+      "--type-display-3": "font",
+      "--type-statement": "font",
+      "--type-figure": "font",
+      "--type-eyebrow": "font",
+      "--type-eyebrow-sm": "font",
+      "--tracking-eyebrow": "font",
+      "--tracking-eyebrow-wide": "font",
+      "--tracking-display": "font",
+      "--type-lead": "font",
+      "--type-body": "font",
+      "--type-body-sm": "font",
+      "--type-label": "font",
+      "--type-caption": "font",
+      "--type-meta": "font",
+      "--space-1": "spacing",
+      "--space-2": "spacing",
+      "--space-3": "spacing",
+      "--space-4": "spacing",
+      "--space-5": "spacing",
+      "--space-6": "spacing",
+      "--space-8": "spacing",
+      "--space-10": "spacing",
+      "--space-12": "spacing",
+      "--space-16": "spacing",
+      "--space-20": "spacing",
+      "--page-width": "spacing",
+      "--page-height": "spacing",
+      "--page-margin": "spacing",
+      "--page-gutter": "spacing",
+      "--measure": "spacing",
+      "--radius-none": "radius",
+      "--radius-sm": "radius",
+      "--radius-md": "radius",
+      "--radius-pill": "radius",
+      "--rule-hairline": "spacing",
+      "--rule-heavy": "spacing",
+      "--rule-accent": "spacing",
+      "--shadow-none": "shadow",
+      "--shadow-card": "shadow",
+      "--shadow-raised": "shadow",
+      "--motion-fast": "other",
+      "--motion-base": "other",
+      "--motion-slow": "other",
+      "--ease-standard": "other",
+      "--ease-out": "other"
+    },
+    "fontFamilies": [
+      "Archivo",
+      "Inter"
+    ]
+  }
+}
