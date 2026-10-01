@@ -134,7 +134,10 @@
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240}}">
-const EVENTS = [
+// Live events come from /events.json (functions/events.json.js), which reads the
+// Google Sheet's "Published" tab. This is the last-known-good snapshot, shown
+// until that loads or if it fails, so the embed is never blank.
+const FALLBACK_EVENTS = [
 {"school":"Glendale HS · Hoover HS · Crescenta Valley HS","title":"GUSD Marching Band Showcase","desc":"Hoover HS, CV HS, and Glendale HS marching bands perform their fall field shows on the  Glendale HS football field for the community. The event starts at 6PM and ends at 8PM","loc":"","notes":"Park in lot C or on the street. Free admission.","dates":[{"d":"2026-09-26","t":"6:00 PM"}]},
 {"school":"Crescenta Valley HS · Hoover HS","title":"Depot Days - Travel Town Jazz Performance","desc":"The CV Jazz Band will perform at Griffith Park's Travel Town for their annual \"Depot Days Event.\"","loc":"Travel Town: 5200 Zoo Dr, Los Angeles, CA 90027","notes":"Free parking, it's open to the public.  Come early.  :)","dates":[{"d":"2026-10-11","t":"10:30 AM"}]},
 {"school":"Hoover HS · Toll MS","title":"Fall Concert","desc":"Hoover instrumental and choral music performances, also including Toll choir.","loc":"Hoover HS Auditorium","notes":"","dates":[{"d":"2026-10-13","t":"6:00 PM"}]},
@@ -204,7 +207,20 @@ const MONTHS = ["January","February","March","April","May","June","July","August
 const DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
 class Component extends DCLogic {
-  state = { school: "All" };
+  state = { school: "All", events: FALLBACK_EVENTS };
+
+  componentDidMount() {
+    if (this.loading) return;
+    this.loading = true;
+    fetch("/events.json", { cache: "no-cache" })
+      .then(r => r.ok ? r.json() : Promise.reject(new Error("events.json " + r.status)))
+      .then(({ events }) => {
+        if (!Array.isArray(events) || events.length === 0) return;
+        const has = s => s === "All" || events.some(e => e.school.split(" · ").includes(s));
+        this.setState(st => ({ events, school: has(st.school) ? st.school : "All" }));
+      })
+      .catch(e => console.warn("Showing the built-in event list:", e.message));
+  }
 
   parse(d, t) {
     const [y, m, day] = d.split("-").map(Number);
@@ -256,6 +272,7 @@ class Component extends DCLogic {
   renderVals() {
     const now = new Date();
     const sel = this.state.school;
+    const EVENTS = this.state.events;
     const schools = Array.from(new Set(EVENTS.flatMap(e => e.school.split(" · "))))
       .sort((a, b) => a.localeCompare(b));
 
@@ -325,7 +342,7 @@ class Component extends DCLogic {
       chips, months,
       isEmpty: months.length === 0,
       countLabel: list.length + (list.length === 1 ? " listing" : " listings"),
-      rangeLabel: fmt(allDates[0]) + " – " + fmt(allDates[allDates.length - 1]),
+      rangeLabel: allDates.length ? fmt(allDates[0]) + " – " + fmt(allDates[allDates.length - 1]) : "",
       schoolCountLabel: schools.length + " schools",
       doPrint: () => window.print()
     };
