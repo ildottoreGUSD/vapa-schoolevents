@@ -56,6 +56,9 @@
 
   <main style="max-width: 1120px; margin: 0 auto; padding: clamp(32px, 4vw, 56px) clamp(24px, 5vw, 64px) 96px;">
     <sc-for list="{{ months }}" as="month" hint-placeholder-count="4">
+      <sc-if value="{{ month.showPastHeading }}" hint-placeholder-val="{{ false }}">
+        <h2 style="font: var(--type-eyebrow-sm); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--text-muted); margin: 0 0 24px; padding-top: 24px; border-top: 1px solid var(--border-rule);">Past events</h2>
+      </sc-if>
       <section class="mo" style="margin-bottom: 56px;">
         <div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; padding-bottom: 12px; border-bottom: 2px solid var(--gusd-navy);">
           <h2 style="font: var(--type-display-2); letter-spacing: var(--tracking-display); color: var(--text-heading); margin: 0; font-size: clamp(28px, 4vw, 44px);">{{ month.name }}</h2>
@@ -299,10 +302,11 @@ class Component extends DCLogic {
     const byMonth = new Map();
     for (const e of list) {
       const first = this.parse(e.dates[0].d, e.dates[0].t);
-      const key = `${first.getFullYear()}-${p2(first.getMonth())}`;
-      if (!byMonth.has(key)) byMonth.set(key, { key, name: MONTHS[first.getMonth()], year: first.getFullYear(), sort: first.getTime(), events: [] });
       const last = this.parse(e.dates[e.dates.length - 1].d, e.dates[e.dates.length - 1].t);
       const isPast = last.getTime() < now.getTime();
+      // Upcoming and past events get separate month groups so past ones can sit at the bottom.
+      const key = `${isPast ? "past" : "next"}-${first.getFullYear()}-${p2(first.getMonth())}`;
+      if (!byMonth.has(key)) byMonth.set(key, { key, isPast, name: MONTHS[first.getMonth()], year: first.getFullYear(), sort: first.getTime(), events: [] });
       byMonth.get(key).events.push({
         sort: first.getTime(),
         school: e.school,
@@ -339,10 +343,15 @@ class Component extends DCLogic {
     }
     function p2(n) { return String(n + 1).padStart(2, "0"); }
 
-    const months = Array.from(byMonth.values()).sort((a, b) => a.sort - b.sort);
+    // Upcoming months soonest first, then past months most recent first.
+    const groups = Array.from(byMonth.values());
+    const upcoming = groups.filter(m => !m.isPast).sort((a, b) => a.sort - b.sort);
+    const past = groups.filter(m => m.isPast).sort((a, b) => b.sort - a.sort);
+    const months = upcoming.concat(past);
     months.forEach(m => {
-      m.events.sort((a, b) => a.sort - b.sort);
+      m.events.sort((a, b) => m.isPast ? b.sort - a.sort : a.sort - b.sort);
       m.count = m.events.length + (m.events.length === 1 ? " event" : " events");
+      m.showPastHeading = m === past[0];
     });
 
     const allDates = EVENTS.flatMap(e => e.dates.map(d => d.d)).sort();
